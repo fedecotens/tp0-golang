@@ -38,16 +38,36 @@ func LeerConsola() {
 	// Leer de la consola
 	reader := bufio.NewReader(os.Stdin)
 	log.Println("Ingrese los mensajes")
-	text, _ := reader.ReadString('\n')
-	log.Print(text)
+	for {
+		text, _ := reader.ReadString('\n')
+		log.Print(text)
+
+		if text == "\n" {
+			break
+		}
+	}
 }
 
 func GenerarYEnviarPaquete() {
 	paquete := Paquete{}
 	// Leemos y cargamos el paquete
+	reader := bufio.NewReader(os.Stdin)
+	log.Println("Ingrese los mensajes para enviar por paquete")
+	for {
+		text, _ := reader.ReadString('\n')
+		log.Print(text)
+
+		if text == "\n" {
+			break
+		}
+
+		paquete.Valores = append(paquete.Valores, text)
+	}
 
 	log.Printf("paqute a enviar: %+v", paquete)
+
 	// Enviamos el paqute
+	EnviarPaquete(globals.ClientConfig.Ip, globals.ClientConfig.Puerto, paquete)
 }
 
 func EnviarMensaje(ip string, puerto int, mensajeTxt string) {
